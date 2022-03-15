@@ -1,0 +1,143 @@
+
+
+    
+    <h1 class="page-title">Puzzle #<%= @puzzle.id %></h1>
+    <h2 class="puzzle-solution"><%= @puzzle.solution %></h2>
+
+    <div class="sudoku-game">
+      <div class="sudoku-board">
+
+      <% (0..8).each { |i| %>
+
+        <div class="sudoku-row">
+
+        <% (0..8).each { |j| %>
+
+          <div class="sudoku-cell">
+          <% thisnum = @puzzle.problem[9 * i + j] %>
+          <% if thisnum != "0" %>
+            <div class="sudoku-cell__prefilled"><%= thisnum %></div>
+          <% end %>
+          </div>
+        <% } %>
+        </div>
+
+      <% } %>
+      </div>
+
+      <div class="control-pad">
+        <button class="control-pad__button control-pad__number">Number</button>
+        <button value="1" class="control-pad__button control-pad__digit control-pad__1">1</button>
+        <button value="2" class="control-pad__button control-pad__digit control-pad__2">2</button>
+        <button value="3" class="control-pad__button control-pad__digit control-pad__3">3</button>
+        <button class="control-pad__button control-pad__scratch">Scratch</button>
+        <button value="4" class="control-pad__button control-pad__digit control-pad__4">4</button>
+        <button value="5" class="control-pad__button control-pad__digit control-pad__5">5</button>
+        <button value="6" class="control-pad__button control-pad__digit control-pad__6">6</button>
+        <button class="control-pad__button control-pad__color">Color</button>
+        <button value="7" class="control-pad__button control-pad__digit control-pad__7">7</button>
+        <button value="8" class="control-pad__button control-pad__digit control-pad__8">8</button>
+        <button value="9" class="control-pad__button control-pad__digit control-pad__9">9</button>
+        <button class="control-pad__button control-pad__clear">Clear</button>
+        <button class="control-pad__button control-pad__reset">Reset</button>
+      </div>
+    </div>
+
+    <%= javascript_pack_tag 'puzzles' %>
+
+<%# 
+
+<script>
+
+
+// Cell selection
+var sudokuCells = document.querySelectorAll(".sudoku-cell");
+for (var i = 0; i < sudokuCells.length; i++) {
+  sudokuCells[i].addEventListener("click", function() {
+    var currentlySelected = document.querySelector(".sudoku-cell__selected");
+    if (currentlySelected && currentlySelected.classList.contains("sudoku-cell__selected"))
+      currentlySelected.classList.remove("sudoku-cell__selected");
+
+    this.classList.add("sudoku-cell__selected");
+  })
+};
+
+// Number toggle
+var numberToggle = document.querySelector(".control-pad__number");
+if (!numberToggle) console.log("FOund it!")
+numberToggle.addEventListener("click", function() {
+  if (numberToggle.classList.contains("control-pad__selected"))
+    numberToggle.classList.remove("control-pad__selected");
+  else {
+    numberToggle.classList.add("control-pad__selected");
+    var scratchToggle = document.querySelector(".control-pad__scratch");
+    if (scratchToggle.classList.contains("control-pad__selected"))
+      scratchToggle.classList.remove("control-pad__selected");
+  }
+});
+
+// Scratch toggle
+var scratchToggle = document.querySelector(".control-pad__scratch");
+scratchToggle.addEventListener("click", function() {
+  console.log("cp1");
+  if (scratchToggle.classList.contains("control-pad__selected"))
+    scratchToggle.classList.remove("control-pad__selected");
+  else {
+    scratchToggle.classList.add("control-pad__selected");
+    var numberToggle = document.querySelector(".control-pad__number");
+    if (numberToggle.classList.contains("control-pad__selected"))
+      numberToggle.classList.remove("control-pad__selected");
+  }
+  console.log("cp2");
+});
+
+// Clear button
+var clearButton = document.querySelector(".control-pad__clear");
+clearButton.addEventListener("click", function() {
+  var currentlySelected = document.querySelector(".sudoku-cell__selected");
+  if (currentlySelected)
+    currentlySelected.innerHTML = "";
+});
+
+// Reset button
+var resetButton = document.querySelector(".control-pad__reset");
+resetButton.addEventListener("click", function() {
+  var sudokuCells = document.querySelectorAll(".sudoku-cell");
+  for (var i = 0; i < sudokuCells.length; i++) {
+    var cellChildren = sudokuCells[i].children;
+    for (var j = 0; j < cellChildren.length; j++) {
+      if (cellChildren[j].classList.contains("sudoku-cell__prefilled")) break;
+      sudokuCells[i].innerHTML = "";
+    }
+  }
+});
+  
+
+// Digit buttons
+var digitButtons = document.querySelectorAll(".control-pad__digit");
+for (var i = 0; i < digitButtons.length; i++) {
+  digitButtons[i].addEventListener("click", function() {
+    var currentlySelected = document.querySelector(".sudoku-cell__selected");
+    if (!currentlySelected) return;
+    var numberToggle = document.querySelector(".control-pad__number");
+    if (numberToggle.classList.contains("control-pad__selected")) {
+      currentlySelected.innerHTML = "<div class='sudoku-cell__center'>" + this.value + "</div>";
+      return;
+    }
+    var scratchToggle = document.querySelector(".control-pad__scratch");
+    if (scratchToggle.classList.contains("control-pad__selected")) {
+      var scratchDigit = document.querySelector(".sudoku-cell__selected .sudoku-cell__center");
+      if (scratchDigit) return;
+      scratchDigit = document.querySelector(".sudoku-cell__selected .sudoku-cell__scratch" + this.value);
+      if (!scratchDigit) {
+        currentlySelected.innerHTML = currentlySelected.innerHTML + 
+              "<div class='sudoku-cell__scratch" + this.value + "'>" + this.value + "</div>";
+      }
+      else
+        scratchDigit.remove();
+    }
+
+  })
+};
+
+</script> %>

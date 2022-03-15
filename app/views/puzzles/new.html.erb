@@ -1,0 +1,58 @@
+<h1 class="page-title">Create New Puzzle</h1>
+
+    <div class="sudoku-game">
+      <div class="sudoku-board">
+
+      <% (0..8).each { |i| %>
+
+        <div class="sudoku-row">
+
+        <% (0..8).each { |j| %>
+          <div class="sudoku-cell"><div class="sudoku-cell__prefilled"></div></div>
+        <% } %>
+        </div>
+
+      <% } %>
+      </div>
+
+      <div class="control-pad control-pad__new">
+        <button value="1" class="control-pad__button control-pad__digit control-pad__1">1</button>
+        <button value="2" class="control-pad__button control-pad__digit control-pad__2">2</button>
+        <button value="3" class="control-pad__button control-pad__digit control-pad__3">3</button>
+        <button value="4" class="control-pad__button control-pad__digit control-pad__4">4</button>
+        <button value="5" class="control-pad__button control-pad__digit control-pad__5">5</button>
+        <button value="6" class="control-pad__button control-pad__digit control-pad__6">6</button>
+        <button value="7" class="control-pad__button control-pad__digit control-pad__7">7</button>
+        <button value="8" class="control-pad__button control-pad__digit control-pad__8">8</button>
+        <button value="9" class="control-pad__button control-pad__digit control-pad__9">9</button>
+        <button class="control-pad__button control-pad__clear">Clear</button>
+        <button class="control-pad__button control-pad__reset">Reset</button>
+      </div>
+    </div>
+
+<div class="form-container">
+
+  <div class="puzzle-form__error">
+    <% @puzzle.errors.full_messages_for(:problem).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <%= form_with(model: @puzzle, html: { class: "puzzle-form"}) do |form| %>
+    <div>
+      <%= form.hidden_field :problem, value: "000000000000000000000000000000000000000000000000000000000000000000000000000000000" %>
+    </div>
+
+    <div>
+      <%= form.hidden_field :solution %>
+    </div>
+
+    <div>
+      <%= form.submit class: "control-pad__button control-pad__submit" %>
+    </div>
+  <% end %>
+</div>
+
+<button class="test-button">Click me!</button>
+
+    <%= javascript_pack_tag 'puzzles_new' %>

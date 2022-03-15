@@ -1,0 +1,37 @@
+<h1 class="page-title">Sudoku Puzzle Archive</h1>
+
+<div class="puzzle-list">
+  <div class="puzzle-nav">
+    <%= paginate @puzzles %>
+  </div>
+
+    <% @puzzles.each do |puzzle| %>
+      <div class="mini-board">
+
+      <% (0..8).each { |i| %>
+
+        <div class="mini-row">
+
+        <% (0..8).each { |j| %>
+
+          <div class="mini-cell">
+            <% thisnum = puzzle.problem[9 * i + j] %>
+            <%= thisnum if thisnum != "0" %>
+          </div>
+        <% } %>
+        </div>
+      <% } %>
+      <%= link_to "Puzzle \##{puzzle.id}", puzzle, class: "puzzle-link" %>
+
+      </div>
+      
+    <% end %>
+
+  <div class="puzzle-nav">
+    <%= paginate @puzzles %>
+  </div>
+  
+  <div><%= link_to "Create New Puzzle", new_puzzle_path %></div>
+
+</div>
+
