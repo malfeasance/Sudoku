@@ -223,6 +223,7 @@ body {
   box-shadow: 2px 2px 2px rgb(173, 132, 27);
   color: black;
   text-align: center;
+  padding: 0;
 }
 
 .control-pad__submit {
