@@ -4,6 +4,7 @@ x bug: Reset button clears pre-filled
 x feature: paginate game index
 x feature: visual puzzle creation
 
+re-factor .sukoku-cell__prefilled, .sudoku-cell__scratch, .sudoku-cell
 reset button needs confirmation dialog
 **** solver needed ****
 automatic puzzle generation

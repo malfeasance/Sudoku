@@ -221,6 +221,8 @@ body {
   font-family: Lora, serif;
   border-radius: 10px;
   box-shadow: 2px 2px 2px rgb(173, 132, 27);
+  color: black;
+  text-align: center;
 }
 
 .control-pad__submit {
@@ -427,7 +429,7 @@ body {
   }
 
   .control-pad__button {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
   .sudoku-cell {
