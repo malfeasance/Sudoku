@@ -19,7 +19,7 @@ body {
   font-family: Lora, serif;
   font-size: 1.2rem;
   width: 100%;
-  background-color: rgba(218, 165, 32, 20%);
+  background-color: rgba(218, 165, 32, 0.2);
   margin: 0;
 
 }
@@ -39,7 +39,7 @@ body {
 }
 
 .puzzle-solution {
-  color: rgba(218, 165, 32, 0%);
+  color: rgba(218, 165, 32, 0);
   position: fixed;
   bottom: 5px;
   right: 5px;
@@ -75,7 +75,7 @@ body {
   height: 1.8rem;
   padding: 4px;
   margin: 0;
-  background-color:rgba(209, 105, 31, 10%);
+  background-color:rgba(209, 105, 31, 0.1);
 }
 
 .sudoku-cell:nth-child(3n+1) {
@@ -216,7 +216,7 @@ body {
   height: 100%;
   font-size: 1.2rem;
   font-weight: bold;
-  background-color: rgba(209, 105, 31, 30%);
+  background-color: rgba(209, 105, 31, 0.3);
   border: 3px solid chocolate;
   font-family: Lora, serif;
   border-radius: 10px;
@@ -340,13 +340,13 @@ body {
 
 .mini-cell {
   position: relative;
-  border-top: 1px solid rgba(210, 105, 30, 30%);
-  border-left: 1px solid rgba(210, 105, 30, 30%);;
+  border-top: 1px solid rgba(210, 105, 30, 0.3);
+  border-left: 1px solid rgba(210, 105, 30, 0.3);;
   width: 1rem;
   height: 1rem;
   /* padding: 5px; */
   margin: 0;
-  background-color:rgba(209, 105, 31, 10%);
+  background-color:rgba(209, 105, 31, 0.1);
   font-size: 0.8rem;
   text-align: center;
 }
