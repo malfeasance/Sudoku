@@ -1,15 +1,19 @@
 
-var puzzleBoard = new Array(81);
+const puzzleBoard = new Array(81);
+const sudokuCells = document.querySelectorAll(".sudoku-cell");
+const digitButtons = document.querySelectorAll(".control-pad__digit");
+const clearButton = document.querySelector(".control-pad__clear");
+const resetButton = document.querySelector(".control-pad__reset");
+const testButton = document.querySelector(".test-button");
 
-let formField = document.getElementById("puzzle_problem");
-let puzzleString = formField.value;
+const puzzleString = document.getElementById("puzzle_problem").value;
 
-for (var i = 0; i < 81; i++) {
+for (let i = 0; i < 81; i++) {
   puzzleBoard[i] = puzzleString.substring(i, i + 1);
 }
 
-var prefilledCells = document.querySelectorAll(".sudoku-cell__prefilled");
-for (var i = 0; i < prefilledCells.length; i++) {
+const prefilledCells = document.querySelectorAll(".sudoku-cell__prefilled");
+for (let i = 0; i < prefilledCells.length; i++) {
   prefilledCells[i].innerHTML = puzzleBoard[i];
   if (puzzleBoard[i] == 0) prefilledCells[i].classList.add("sudoku-cell__zero")
   else prefilledCells[i].classList.remove("sudoku-cell__zero");
@@ -18,7 +22,7 @@ for (var i = 0; i < prefilledCells.length; i++) {
 function buildPuzzleString() {
   let returnString = "";
 
-  for (var i = 0; i < 81; i++) {
+  for (let i = 0; i < 81; i++) {
     returnString += prefilledCells[i].innerHTML;
   }
 
@@ -27,11 +31,13 @@ function buildPuzzleString() {
 
 console.log(buildPuzzleString());
 
+//
 // Cell selection
-var sudokuCells = document.querySelectorAll(".sudoku-cell");
-for (var i = 0; i < sudokuCells.length; i++) {
-  sudokuCells[i].addEventListener("click", function() {
-    var currentlySelected = document.querySelector(".sudoku-cell__selected");
+//
+
+for (let sudokuCell of sudokuCells) {
+  sudokuCell.addEventListener("click", function() {
+    const currentlySelected = document.querySelector(".sudoku-cell__selected");
     if (currentlySelected && currentlySelected.classList.contains("sudoku-cell__selected"))
       currentlySelected.classList.remove("sudoku-cell__selected");
 
@@ -39,38 +45,44 @@ for (var i = 0; i < sudokuCells.length; i++) {
   });
 };
 
+//
 // Digit buttons
-var digitButtons = document.querySelectorAll(".control-pad__digit");
-for (var i = 0; i < digitButtons.length; i++) {
-  digitButtons[i].addEventListener("click", function() {
-    var currentlySelected = document.querySelector(".sudoku-cell__selected");
+//
+
+for (let digitButton of digitButtons) {
+  digitButton.addEventListener("click", function() {
+    const currentlySelected = document.querySelector(".sudoku-cell__selected");
     if (!currentlySelected) return;
 
-    pfCell = currentlySelected.querySelector(".sudoku-cell__prefilled");
+    const prefilledCell = currentlySelected.querySelector(".sudoku-cell__prefilled");
 
-    pfCell.classList.remove("sudoku-cell__zero");
-    pfCell.innerHTML = this.value;
+    prefilledCell.classList.remove("sudoku-cell__zero");
+    prefilledCell.innerHTML = this.value;
     formField.value = buildPuzzleString();
   });
 };
 
+//
 // Clear button
-var clearButton = document.querySelector(".control-pad__clear");
+//
+
 clearButton.addEventListener("click", function() {
-  var currentlySelected = document.querySelector(".sudoku-cell__selected");
+  const currentlySelected = document.querySelector(".sudoku-cell__selected");
   if (!currentlySelected) return;
 
-  pfCell = currentlySelected.querySelector(".sudoku-cell__prefilled");
+  const prefilledCell = currentlySelected.querySelector(".sudoku-cell__prefilled");
 
-  pfCell.classList.add("sudoku-cell__zero");
-  pfCell.innerHTML = "0";
+  prefilledCell.classList.add("sudoku-cell__zero");
+  prefilledCell.innerHTML = "0";
   formField.value = buildPuzzleString();
 });
 
+//
 // Reset button
-var resetButton = document.querySelector(".control-pad__reset");
+//
+
 resetButton.addEventListener("click", function() {
-  for (var i = 0; i < 81; i++) {
+  for (let i = 0; i < 81; i++) {
     prefilledCells[i].classList.add("sudoku-cell__zero");
     prefilledCells[i].innerHTML = "0";
   }
@@ -78,9 +90,9 @@ resetButton.addEventListener("click", function() {
 });
 
 
-var testButton = document.querySelector(".test-button");
+
 testButton.addEventListener("click", function() {
-  var problemInput = document.getElementById("puzzle_problem");
+  const problemInput = document.getElementById("puzzle_problem");
   if (problemInput) {
     problemInput.value = "987650001987654321987654321987654321987654321987654321987654321987654321987654321";
   }

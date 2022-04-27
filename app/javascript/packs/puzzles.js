@@ -12,41 +12,51 @@ function controlPadSelect(buttonToggle) {
 }
 
 function controlPadColorsOn() {
-  for (var i = 1; i < 10; i++) {
-    var digitButton = document.querySelector(".control-pad__" + i);  
+  for (let i = 1; i < 10; i++) {
+    const digitButton = document.querySelector(".control-pad__" + i);  
     digitButton.classList.add("control-pad__color" + i);
   }
 }
 
 function controlPadColorsOff() {
-  for (var i = 1; i < 10; i++) {
-    var digitButton = document.querySelector(".control-pad__" + i);
+  for (let i = 1; i < 10; i++) {
+    const digitButton = document.querySelector(".control-pad__" + i);
     digitButton.classList.remove("control-pad__color" + i);
   }
 }
 
-clickCount = 0;
-document.addEventListener("click", function() {
-  console.log("click " + ++clickCount + " registered");
-})
+//
+// Global constant elements
+//
 
+const sudokuCells = document.querySelectorAll(".sudoku-cell");
+const numberToggle = document.querySelector(".control-pad__number");
+const scratchToggle = document.querySelector(".control-pad__scratch");
+const colorToggle = document.querySelector(".control-pad__color");
+const clearButton = document.querySelector(".control-pad__clear");
+const resetButton = document.querySelector(".control-pad__reset");
+const digitButtons = document.querySelectorAll(".control-pad__digit");
+
+//
 // Cell selection
-var sudokuCells = document.querySelectorAll(".sudoku-cell");
-for (var i = 0; i < sudokuCells.length; i++) {
-  sudokuCells[i].addEventListener("click", function() {
-    var currentlySelected = document.querySelector(".sudoku-cell__selected");
-    if (currentlySelected && currentlySelected.classList.contains("sudoku-cell__selected"))
+//
+
+for (let sudokuCell of sudokuCells) {
+  sudokuCell.addEventListener("click", function() {
+    const currentlySelected = document.querySelector(".sudoku-cell__selected");
+    if (currentlySelected === this)
+      this.classList.remove("sudoku-cell__selected");
+    else if (currentlySelected) {
       currentlySelected.classList.remove("sudoku-cell__selected");
-
-    this.classList.add("sudoku-cell__selected");
+      this.classList.add("sudoku-cell__selected");
+    }
+    else this.classList.add("sudoku-cell__selected");
   })
-};
+}
 
-var numberToggle = document.querySelector(".control-pad__number");
-var scratchToggle = document.querySelector(".control-pad__scratch");
-var colorToggle = document.querySelector(".control-pad__color");
-
+//
 // Number toggle
+//
 
 numberToggle.addEventListener("click", function() {
   if (controlPadIsSelected(numberToggle))
@@ -59,64 +69,73 @@ numberToggle.addEventListener("click", function() {
   }
 });
 
+//
 // Scratch toggle
+//
+
 scratchToggle.addEventListener("click", function() {
-if (controlPadIsSelected(scratchToggle))
-  controlPadDeselect(scratchToggle);
-else {
-  controlPadSelect(scratchToggle);
-  controlPadDeselect(numberToggle);
-  controlPadColorsOff();
-  controlPadDeselect(colorToggle);
-}
+  if (controlPadIsSelected(scratchToggle))
+    controlPadDeselect(scratchToggle);
+  else {
+    controlPadSelect(scratchToggle);
+    controlPadDeselect(numberToggle);
+    controlPadDeselect(colorToggle);
+    controlPadColorsOff();
+  }
 });
 
+//
 // Color toggle
+//
+
 colorToggle.addEventListener("click", function() {
-if (controlPadIsSelected(colorToggle)) {
-  controlPadDeselect(colorToggle);
-  controlPadColorsOff();
-}
-else {
-  controlPadSelect(colorToggle);
-  controlPadDeselect(scratchToggle);
-  controlPadDeselect(numberToggle);
-  controlPadColorsOn();
-}
+  if (controlPadIsSelected(colorToggle)) {
+    controlPadDeselect(colorToggle);
+    controlPadColorsOff();
+  }
+  else {
+    controlPadSelect(colorToggle);
+    controlPadDeselect(scratchToggle);
+    controlPadDeselect(numberToggle);
+    controlPadColorsOn();
+  }
 });
 
+//
 // Clear button
-var clearButton = document.querySelector(".control-pad__clear");
+//
+
 clearButton.addEventListener("click", function() {
-  var currentlySelected = document.querySelector(".sudoku-cell__selected");
+  const currentlySelected = document.querySelector(".sudoku-cell__selected");
   if (currentlySelected)
     if (!currentlySelected.querySelector(".sudoku-cell__prefilled"))
       currentlySelected.innerHTML = "";
-    for (var j = 1; j < 10; j++)
-      currentlySelected.classList.remove("control-pad__color" + j);
+    for (let i = 1; i < 10; i++)
+      currentlySelected.classList.remove("control-pad__color" + i);
 });
 
+//
 // Reset button
-var resetButton = document.querySelector(".control-pad__reset");
+//
+
 resetButton.addEventListener("click", function() {
-  var sudokuCells = document.querySelectorAll(".sudoku-cell");
-  for (var i = 0; i < sudokuCells.length; i++) {
-    if (!sudokuCells[i].querySelector(".sudoku-cell__prefilled"))
-      sudokuCells[i].innerHTML = "";
-    for (var j = 1; j < 10; j++)
-      sudokuCells[i].classList.remove("control-pad__color" + j);
+  for (sudokuCell of sudokuCells) {
+    if (!sudokuCell.querySelector(".sudoku-cell__prefilled"))
+      sudokuCell.innerHTML = "";
+    for (let i = 1; i < 10; i++)
+      sudokuCell.classList.remove("control-pad__color" + i);
   }
 });
   
-
+//
 // Digit buttons
-var digitButtons = document.querySelectorAll(".control-pad__digit");
-for (var i = 0; i < digitButtons.length; i++) {
-  digitButtons[i].addEventListener("click", function() {
-    var currentlySelected = document.querySelector(".sudoku-cell__selected");
+//
+
+for (digitButton of digitButtons) {
+  digitButton.addEventListener("click", function() {
+    const currentlySelected = document.querySelector(".sudoku-cell__selected");
     if (!currentlySelected) return;
 
-    var colorToggle = document.querySelector(".control-pad__color");
     if (controlPadIsSelected(colorToggle)) {
       if (currentlySelected.classList.contains("control-pad__color" + this.value))
         currentlySelected.classList.remove("control-pad__color" + this.value);
@@ -128,14 +147,14 @@ for (var i = 0; i < digitButtons.length; i++) {
       return;
     }
 
-    var numberToggle = document.querySelector(".control-pad__number");
-    if (numberToggle.classList.contains("control-pad__selected")) {
+    if (currentlySelected.querySelector(".sudoku-cell__prefilled")) return;
+
+    if (controlPadIsSelected(numberToggle)) {
       currentlySelected.innerHTML = "<div class='sudoku-cell__center'>" + this.value + "</div>";
       return;
     }
 
-    var scratchToggle = document.querySelector(".control-pad__scratch");
-    if (scratchToggle.classList.contains("control-pad__selected")) {
+    if (controlPadIsSelected(scratchToggle)) {
       var scratchDigit = document.querySelector(".sudoku-cell__selected .sudoku-cell__center");
       if (scratchDigit) return;
       scratchDigit = document.querySelector(".sudoku-cell__selected .sudoku-cell__scratch" + this.value);
